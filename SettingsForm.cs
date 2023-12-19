@@ -14,6 +14,9 @@ namespace QwertyToMIDI
 {
     public partial class SettingsForm : Form
     {
+        string settings_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\QwertyToMIDI";
+        string keys_settings_fileName = "\\KeysSettings.xml";
+
         globalKeyboardHook gkh = new globalKeyboardHook();
 
         Keys lastKey = Keys.None;
@@ -156,9 +159,14 @@ namespace QwertyToMIDI
 
         private void SaveFile()
         {
-            string output = "D:\\MIDI Controller Settings.xml";
+            if (!Directory.Exists(settings_path))
+            {
+                Directory.CreateDirectory(settings_path);
+            }
 
-            Stream stream = File.OpenWrite(output);
+            string path = settings_path + keys_settings_fileName;
+
+            Stream stream = File.OpenWrite(path);
 
             XmlSerializer serialiser = new XmlSerializer(typeof(List<settings>));
             serialiser.Serialize(stream, SettingsLists);
@@ -167,7 +175,7 @@ namespace QwertyToMIDI
 
         private void LoadFile()
         {
-            string path = "D:\\MIDI Controller Settings.xml";
+            string path = settings_path + keys_settings_fileName;
 
             if (File.Exists(path))
             {
