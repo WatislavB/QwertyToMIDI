@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QwertyToMIDI", "QwertyToMIDI.csproj", "{144DB9E1-4CBD-438F-A7AA-824BC9C4CCAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{144DB9E1-4CBD-438F-A7AA-824BC9C4CCAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144DB9E1-4CBD-438F-A7AA-824BC9C4CCAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144DB9E1-4CBD-438F-A7AA-824BC9C4CCAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144DB9E1-4CBD-438F-A7AA-824BC9C4CCAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5386455C-A5FE-48EE-B4A7-3877F2372166}
+	EndGlobalSection
+EndGlobal
