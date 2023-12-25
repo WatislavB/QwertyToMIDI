@@ -20,7 +20,7 @@ namespace QwertyToMIDI
 
         public globalKeyboardHook gkh = new globalKeyboardHook();
 
-        public List<settings> SettingsLists = new List<settings>();
+        public settings SettingsValues = new settings();
 
         private NotifyIcon trayIcon;
 
@@ -31,32 +31,33 @@ namespace QwertyToMIDI
                 Icon = Properties.Resources.RIcon,
                 ContextMenuStrip = new ContextMenuStrip()
                 {
-                    Items = { new ToolStripMenuItem("Settings", null, SettingsShow), new ToolStripMenuItem("Exit", null, Exit) }
+                    Items = { new ToolStripMenuItem("Grid View", null, GridViewShow), new ToolStripMenuItem("Settings", null, SettingsShow), new ToolStripMenuItem("Exit", null, Exit) }
                 },
                 Visible = true
             };
 
-            trayIcon.DoubleClick += new EventHandler(SettingsShow);
+            trayIcon.DoubleClick += new EventHandler(GridViewShow);
 
             gkh.KeyDown += new KeyEventHandler(gkh_KeyDown);
             gkh.KeyUp += new KeyEventHandler(gkh_KeyUp);
 
             LoadFile();
+            LoadDevices();
         }
 
         void gkh_KeyDown(object sender, KeyEventArgs e)
         {
             if (MidiDevice > -1)
             {
-                for (int i = 0; i < SettingsLists.Count; i++)
+                for (int i = 0; i < SettingsValues.SettingsKeys.Count; i++)
                 {
-                    if ((SettingsLists[i].key == e.KeyCode) && (SettingsLists[i].key_status == "Key Down"))
+                    if ((SettingsValues.SettingsKeys[i].key == e.KeyCode) && (SettingsValues.SettingsKeys[i].key_status == "Key Down"))
                     {
                         MidiOut midiOut = new MidiOut(MidiDevice);
-                        midiOut.Send(MidiMessage.ChangeControl(SettingsLists[i].midi1, SettingsLists[i].midi2, SettingsLists[i].midi3).RawData);
+                        midiOut.Send(MidiMessage.ChangeControl(SettingsValues.SettingsKeys[i].midi1, SettingsValues.SettingsKeys[i].midi2, SettingsValues.SettingsKeys[i].midi3).RawData);
                         midiOut.Close();
 
-                        Debug.WriteLine(SettingsLists[i].key);
+                        Debug.WriteLine(SettingsValues.SettingsKeys[i].key);
                     }
                 }
             }
@@ -66,15 +67,15 @@ namespace QwertyToMIDI
         {
             if (MidiDevice > -1)
             {
-                for (int i = 0; i < SettingsLists.Count; i++)
+                for (int i = 0; i < SettingsValues.SettingsKeys.Count; i++)
                 {
-                    if ((SettingsLists[i].key == e.KeyCode) && (SettingsLists[i].key_status == "Key Up"))
+                    if ((SettingsValues.SettingsKeys[i].key == e.KeyCode) && (SettingsValues.SettingsKeys[i].key_status == "Key Up"))
                     {
                         MidiOut midiOut = new MidiOut(MidiDevice);
-                        midiOut.Send(MidiMessage.ChangeControl(SettingsLists[i].midi1, SettingsLists[i].midi2, SettingsLists[i].midi3).RawData);
+                        midiOut.Send(MidiMessage.ChangeControl(SettingsValues.SettingsKeys[i].midi1, SettingsValues.SettingsKeys[i].midi2, SettingsValues.SettingsKeys[i].midi3).RawData);
                         midiOut.Close();
 
-                        Debug.WriteLine(SettingsLists[i].key);
+                        Debug.WriteLine(SettingsValues.SettingsKeys[i].key);
                     }
                 }
             }
@@ -86,9 +87,15 @@ namespace QwertyToMIDI
             Application.Exit();
         }
 
+        void GridViewShow(object? sender, EventArgs e)
+        {
+            GridView gridview_f = new GridView(this);
+            gridview_f.Show();
+        }
+
         void SettingsShow(object? sender, EventArgs e)
         {
-            SettingsForm settings_f = new SettingsForm(this);
+            SettingsForm settings_f = new SettingsForm();
             settings_f.Show();
         }
 
@@ -98,15 +105,26 @@ namespace QwertyToMIDI
 
             if (File.Exists(path))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<settings>));
+                XmlSerializer serializer = new XmlSerializer(typeof(settings));
 
                 StreamReader reader = new StreamReader(path);
-                SettingsLists = serializer.Deserialize(reader) as List<settings>;
+                SettingsValues = serializer.Deserialize(reader) as settings;
                 reader.Close();
 
-                for (int i = 0; i < SettingsLists.Count; i++)
+                for (int i = 0; i < SettingsValues.SettingsKeys.Count; i++)
                 {
-                    gkh.HookedKeys.Add(SettingsLists[i].key);
+                    gkh.HookedKeys.Add(SettingsValues.SettingsKeys[i].key);
+                }
+            }
+        }
+
+        private void LoadDevices()
+        {
+            for (int device = 0; device < MidiOut.NumberOfDevices; device++)
+            {
+                if (SettingsValues.MidiDeviceName == MidiOut.DeviceInfo(device).ProductName)
+                {
+                    MidiDevice = device;
                 }
             }
         }
@@ -114,8 +132,14 @@ namespace QwertyToMIDI
 
     public class settings
     {
+        public List<settings_keys> SettingsKeys = new List<settings_keys>();
+        public string? MidiDeviceName { get; set; }
+    }
+
+    public class settings_keys
+    {
         public Keys key { get; set; }
-        public string? key_status { get; set; }
+        public string key_status { get; set; }
         public int midi1 { get; set; }
         public int midi2 { get; set; }
         public int midi3 { get; set; }
