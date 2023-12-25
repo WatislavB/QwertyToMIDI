@@ -20,6 +20,7 @@ namespace QwertyToMIDI
         globalKeyboardHook gkh = new globalKeyboardHook();
 
         Keys lastKey = Keys.None;
+        int editIndex = -1;
 
         List<settings> SettingsLists = new List<settings>();
 
@@ -79,28 +80,69 @@ namespace QwertyToMIDI
         {
             if (textBox_Key.Text != "")
             {
-                dataGridView_Keys.Rows.Add(textBox_Key.Text, comboBox_Key_status.Text, numericUpDown_MIDI1.Value, numericUpDown_MIDI2.Value, numericUpDown_MIDI3.Value);
-
-                gkh.HookedKeys.Add(lastKey);
-
-                SettingsLists.Add(new settings()
+                if (editIndex > -1)
                 {
-                    key = lastKey,
-                    key_status = comboBox_Key_status.Text,
-                    midi1 = (int)numericUpDown_MIDI1.Value,
-                    midi2 = (int)numericUpDown_MIDI2.Value,
-                    midi3 = (int)numericUpDown_MIDI3.Value
-                });
+                    dataGridView_Keys.Rows[editIndex].Cells[0].Value = textBox_Key.Text;
+                    dataGridView_Keys.Rows[editIndex].Cells[1].Value = comboBox_Key_status.Text;
+                    dataGridView_Keys.Rows[editIndex].Cells[2].Value = numericUpDown_MIDI1.Value;
+                    dataGridView_Keys.Rows[editIndex].Cells[3].Value = numericUpDown_MIDI2.Value;
+                    dataGridView_Keys.Rows[editIndex].Cells[4].Value = numericUpDown_MIDI3.Value;
 
-                lastKey = Keys.None;
+                    gkh.HookedKeys.Remove(SettingsLists[editIndex].key);
+                    gkh.HookedKeys.Add(lastKey);
 
-                textBox_Key.Text = "";
-                comboBox_Key_status.SelectedIndex = 0;
-                numericUpDown_MIDI1.Value = 0;
-                numericUpDown_MIDI2.Value = 0;
-                numericUpDown_MIDI3.Value = 1;
+                    SettingsLists[editIndex].key = lastKey;
+                    SettingsLists[editIndex].key_status = comboBox_Key_status.Text;
+                    SettingsLists[editIndex].midi1 = (int)numericUpDown_MIDI1.Value;
+                    SettingsLists[editIndex].midi2 = (int)numericUpDown_MIDI2.Value;
+                    SettingsLists[editIndex].midi3 = (int)numericUpDown_MIDI3.Value;
 
-                textBox_Key.Focus();
+                    EditingToggle();
+                }
+                else
+                {
+                    dataGridView_Keys.Rows.Add(textBox_Key.Text, comboBox_Key_status.Text, numericUpDown_MIDI1.Value, numericUpDown_MIDI2.Value, numericUpDown_MIDI3.Value);
+
+                    gkh.HookedKeys.Add(lastKey);
+
+                    SettingsLists.Add(new settings()
+                    {
+                        key = lastKey,
+                        key_status = comboBox_Key_status.Text,
+                        midi1 = (int)numericUpDown_MIDI1.Value,
+                        midi2 = (int)numericUpDown_MIDI2.Value,
+                        midi3 = (int)numericUpDown_MIDI3.Value
+                    });
+                }
+
+                ClearBoxes();
+            }
+        }
+
+        private void button_Edit_Click(object sender, EventArgs e)
+        {
+            if (editIndex > -1)
+            {
+                EditingToggle();
+                ClearBoxes();
+            }
+            else
+            {
+                EditingToggle();
+
+                if (dataGridView_Keys.Rows.Count > 0)
+                {
+                    if (dataGridView_Keys.SelectedCells.Count > 0)
+                    {
+                        textBox_Key.Text = SettingsLists[editIndex].key.ToString();
+                        if (SettingsLists[editIndex].key_status == "Key Down") { comboBox_Key_status.SelectedIndex = 0; } else { comboBox_Key_status.SelectedIndex = 1; }
+                        numericUpDown_MIDI1.Value = SettingsLists[editIndex].midi1;
+                        numericUpDown_MIDI2.Value = SettingsLists[editIndex].midi2;
+                        numericUpDown_MIDI3.Value = SettingsLists[editIndex].midi3;
+
+                        lastKey = SettingsLists[editIndex].key;
+                    }
+                }
             }
         }
 
@@ -115,6 +157,37 @@ namespace QwertyToMIDI
                     dataGridView_Keys.Rows.RemoveAt(dataGridView_Keys.SelectedCells[0].RowIndex);
                 }
             }
+        }
+
+        public void EditingToggle()
+        {
+            if (editIndex > -1)
+            {
+                button_Add.Text = "Add";
+                button_Edit.Text = "Edit";
+                button_Remove.Enabled = true;
+                editIndex = -1;
+            }
+            else
+            {
+                button_Add.Text = "Save";
+                button_Edit.Text = "Cancel";
+                button_Remove.Enabled = false;
+                editIndex = dataGridView_Keys.SelectedCells[0].RowIndex;
+            }
+        }
+
+        public void ClearBoxes()
+        {
+            lastKey = Keys.None;
+
+            textBox_Key.Text = "";
+            comboBox_Key_status.SelectedIndex = 0;
+            numericUpDown_MIDI1.Value = 0;
+            numericUpDown_MIDI2.Value = 0;
+            numericUpDown_MIDI3.Value = 1;
+
+            textBox_Key.Focus();
         }
 
         private void textBox_Key_KeyUp(object sender, KeyEventArgs e)

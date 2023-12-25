@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             button_Add = new Button();
             button_Remove = new Button();
-            button_Apply = new Button();
+            button_Edit = new Button();
             dataGridView_Keys = new DataGridView();
             Column_Key = new DataGridViewTextBoxColumn();
             Column_Key_status = new DataGridViewTextBoxColumn();
@@ -65,7 +65,7 @@
             // button_Add
             // 
             button_Add.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button_Add.Location = new Point(12, 359);
+            button_Add.Location = new Point(12, 395);
             button_Add.Name = "button_Add";
             button_Add.Size = new Size(75, 23);
             button_Add.TabIndex = 0;
@@ -76,7 +76,7 @@
             // button_Remove
             // 
             button_Remove.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button_Remove.Location = new Point(93, 359);
+            button_Remove.Location = new Point(174, 395);
             button_Remove.Name = "button_Remove";
             button_Remove.Size = new Size(75, 23);
             button_Remove.TabIndex = 2;
@@ -84,16 +84,16 @@
             button_Remove.UseVisualStyleBackColor = true;
             button_Remove.Click += button_Remove_Click;
             // 
-            // button_Apply
+            // button_Edit
             // 
-            button_Apply.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button_Apply.Location = new Point(540, 359);
-            button_Apply.Name = "button_Apply";
-            button_Apply.Size = new Size(75, 23);
-            button_Apply.TabIndex = 4;
-            button_Apply.Text = "Apply";
-            button_Apply.UseVisualStyleBackColor = true;
-            button_Apply.Visible = false;
+            button_Edit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button_Edit.Location = new Point(93, 395);
+            button_Edit.Name = "button_Edit";
+            button_Edit.Size = new Size(75, 23);
+            button_Edit.TabIndex = 4;
+            button_Edit.Text = "Edit";
+            button_Edit.UseVisualStyleBackColor = true;
+            button_Edit.Click += button_Edit_Click;
             // 
             // dataGridView_Keys
             // 
@@ -107,7 +107,7 @@
             dataGridView_Keys.Name = "dataGridView_Keys";
             dataGridView_Keys.ReadOnly = true;
             dataGridView_Keys.RowTemplate.Height = 25;
-            dataGridView_Keys.Size = new Size(603, 209);
+            dataGridView_Keys.Size = new Size(603, 245);
             dataGridView_Keys.TabIndex = 5;
             // 
             // Column_Key
@@ -147,7 +147,7 @@
             // 
             label_Key.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label_Key.AutoSize = true;
-            label_Key.Location = new Point(12, 259);
+            label_Key.Location = new Point(12, 295);
             label_Key.Name = "label_Key";
             label_Key.Size = new Size(26, 15);
             label_Key.TabIndex = 6;
@@ -156,7 +156,7 @@
             // textBox_Key
             // 
             textBox_Key.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            textBox_Key.Location = new Point(44, 256);
+            textBox_Key.Location = new Point(44, 292);
             textBox_Key.Name = "textBox_Key";
             textBox_Key.ReadOnly = true;
             textBox_Key.Size = new Size(124, 23);
@@ -167,7 +167,7 @@
             // 
             label_MIDI1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label_MIDI1.AutoSize = true;
-            label_MIDI1.Location = new Point(437, 258);
+            label_MIDI1.Location = new Point(437, 294);
             label_MIDI1.Name = "label_MIDI1";
             label_MIDI1.Size = new Size(88, 15);
             label_MIDI1.TabIndex = 11;
@@ -177,7 +177,7 @@
             // 
             label_MIDI2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label_MIDI2.AutoSize = true;
-            label_MIDI2.Location = new Point(437, 287);
+            label_MIDI2.Location = new Point(437, 323);
             label_MIDI2.Name = "label_MIDI2";
             label_MIDI2.Size = new Size(63, 15);
             label_MIDI2.TabIndex = 12;
@@ -187,7 +187,7 @@
             // 
             label_MIDI3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label_MIDI3.AutoSize = true;
-            label_MIDI3.Location = new Point(437, 316);
+            label_MIDI3.Location = new Point(437, 352);
             label_MIDI3.Name = "label_MIDI3";
             label_MIDI3.Size = new Size(79, 15);
             label_MIDI3.TabIndex = 13;
@@ -196,7 +196,7 @@
             // numericUpDown_MIDI1
             // 
             numericUpDown_MIDI1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            numericUpDown_MIDI1.Location = new Point(531, 256);
+            numericUpDown_MIDI1.Location = new Point(531, 292);
             numericUpDown_MIDI1.Maximum = new decimal(new int[] { 127, 0, 0, 0 });
             numericUpDown_MIDI1.Name = "numericUpDown_MIDI1";
             numericUpDown_MIDI1.Size = new Size(84, 23);
@@ -205,7 +205,7 @@
             // numericUpDown_MIDI2
             // 
             numericUpDown_MIDI2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            numericUpDown_MIDI2.Location = new Point(531, 285);
+            numericUpDown_MIDI2.Location = new Point(531, 321);
             numericUpDown_MIDI2.Maximum = new decimal(new int[] { 127, 0, 0, 0 });
             numericUpDown_MIDI2.Name = "numericUpDown_MIDI2";
             numericUpDown_MIDI2.Size = new Size(84, 23);
@@ -214,7 +214,7 @@
             // numericUpDown_MIDI3
             // 
             numericUpDown_MIDI3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            numericUpDown_MIDI3.Location = new Point(531, 314);
+            numericUpDown_MIDI3.Location = new Point(531, 350);
             numericUpDown_MIDI3.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
             numericUpDown_MIDI3.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericUpDown_MIDI3.Name = "numericUpDown_MIDI3";
@@ -287,7 +287,7 @@
             comboBox_Key_status.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_Key_status.FormattingEnabled = true;
             comboBox_Key_status.Items.AddRange(new object[] { "Key Down", "Key Up" });
-            comboBox_Key_status.Location = new Point(44, 285);
+            comboBox_Key_status.Location = new Point(44, 321);
             comboBox_Key_status.MaxDropDownItems = 2;
             comboBox_Key_status.Name = "comboBox_Key_status";
             comboBox_Key_status.Size = new Size(124, 23);
@@ -297,7 +297,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(627, 394);
+            ClientSize = new Size(627, 430);
             Controls.Add(comboBox_Key_status);
             Controls.Add(button_Refresh_Devices);
             Controls.Add(comboBox_Device_List);
@@ -311,7 +311,7 @@
             Controls.Add(textBox_Key);
             Controls.Add(label_Key);
             Controls.Add(dataGridView_Keys);
-            Controls.Add(button_Apply);
+            Controls.Add(button_Edit);
             Controls.Add(button_Remove);
             Controls.Add(button_Add);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -334,7 +334,7 @@
 
         private Button button_Add;
         private Button button_Remove;
-        private Button button_Apply;
+        private Button button_Edit;
         private DataGridView dataGridView_Keys;
         private Label label_Key;
         private TextBox textBox_Key;
