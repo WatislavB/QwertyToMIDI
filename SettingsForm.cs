@@ -202,6 +202,11 @@ namespace QwertyToMIDI
 
                 comboBox_Device_List.Items.Add(MidiOut.DeviceInfo(device).ProductName);
             }
+
+            if (comboBox_Device_List.Items.Count >= parent.MidiDevice)
+            {
+                comboBox_Device_List.SelectedIndex = parent.MidiDevice;
+            }
         }
     }
 }
