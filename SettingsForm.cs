@@ -1,13 +1,4 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace QwertyToMIDI
 {
@@ -16,6 +7,12 @@ namespace QwertyToMIDI
         public SettingsForm()
         {
             InitializeComponent();
+        }
+
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            RegistryKey winLogonKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            checkBox_Startup.Checked = winLogonKey.GetValueNames().Contains(Application.ProductName);
         }
 
         private void checkBox_Startup_CheckedChanged(object sender, EventArgs e)

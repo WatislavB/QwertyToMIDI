@@ -1,13 +1,5 @@
-using Microsoft.VisualBasic.ApplicationServices;
-using NAudio.CoreAudioApi;
 using NAudio.Midi;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace QwertyToMIDI

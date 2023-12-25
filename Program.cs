@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using System.Resources;
-
 namespace QwertyToMIDI
 {
     internal static class Program

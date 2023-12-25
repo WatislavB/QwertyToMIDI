@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NAudio.Midi;
 using System.Diagnostics;
-using System.Linq;
-using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-using NAudio.Midi;
-using QwertyToMIDI;
 
 namespace QwertyToMIDI
 {

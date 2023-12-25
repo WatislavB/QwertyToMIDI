@@ -80,6 +80,7 @@
             MinimizeBox = false;
             Name = "SettingsForm";
             Text = "Settings";
+            Load += SettingsForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox_Icon).EndInit();
             ResumeLayout(false);
             PerformLayout();
