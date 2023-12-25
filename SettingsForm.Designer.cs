@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             button_Add = new Button();
             button_Remove = new Button();
@@ -47,10 +46,6 @@
             numericUpDown_MIDI1 = new NumericUpDown();
             numericUpDown_MIDI2 = new NumericUpDown();
             numericUpDown_MIDI3 = new NumericUpDown();
-            notifyIcon_MIDIController = new NotifyIcon(components);
-            contextMenuStrip_tray = new ContextMenuStrip(components);
-            toolStripMenuItem_Show = new ToolStripMenuItem();
-            toolStripMenuItem_Exit = new ToolStripMenuItem();
             label_MIDI_Device = new Label();
             comboBox_Device_List = new ComboBox();
             button_Refresh_Devices = new Button();
@@ -59,7 +54,6 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI3).BeginInit();
-            contextMenuStrip_tray.SuspendLayout();
             SuspendLayout();
             // 
             // button_Add
@@ -222,34 +216,6 @@
             numericUpDown_MIDI3.TabIndex = 16;
             numericUpDown_MIDI3.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
-            // notifyIcon_MIDIController
-            // 
-            notifyIcon_MIDIController.ContextMenuStrip = contextMenuStrip_tray;
-            notifyIcon_MIDIController.Icon = (Icon)resources.GetObject("notifyIcon_MIDIController.Icon");
-            notifyIcon_MIDIController.Text = "MIDI Controller";
-            notifyIcon_MIDIController.Visible = true;
-            notifyIcon_MIDIController.MouseDoubleClick += notifyIcon_MIDIController_MouseDoubleClick;
-            // 
-            // contextMenuStrip_tray
-            // 
-            contextMenuStrip_tray.Items.AddRange(new ToolStripItem[] { toolStripMenuItem_Show, toolStripMenuItem_Exit });
-            contextMenuStrip_tray.Name = "contextMenuStrip_tray";
-            contextMenuStrip_tray.Size = new Size(104, 48);
-            // 
-            // toolStripMenuItem_Show
-            // 
-            toolStripMenuItem_Show.Name = "toolStripMenuItem_Show";
-            toolStripMenuItem_Show.Size = new Size(103, 22);
-            toolStripMenuItem_Show.Text = "Show";
-            toolStripMenuItem_Show.Click += toolStripMenuItem_Show_Click;
-            // 
-            // toolStripMenuItem_Exit
-            // 
-            toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
-            toolStripMenuItem_Exit.Size = new Size(103, 22);
-            toolStripMenuItem_Exit.Text = "Exit";
-            toolStripMenuItem_Exit.Click += toolStripMenuItem_Exit_Click;
-            // 
             // label_MIDI_Device
             // 
             label_MIDI_Device.AutoSize = true;
@@ -269,6 +235,7 @@
             comboBox_Device_List.Name = "comboBox_Device_List";
             comboBox_Device_List.Size = new Size(446, 23);
             comboBox_Device_List.TabIndex = 18;
+            comboBox_Device_List.SelectedIndexChanged += comboBox_Device_List_SelectedIndexChanged;
             // 
             // button_Refresh_Devices
             // 
@@ -319,13 +286,11 @@
             MaximizeBox = false;
             Name = "SettingsForm";
             Text = "Qwerty To MIDI";
-            FormClosing += SettingsForm_FormClosing;
             Load += SettingsForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView_Keys).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI1).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI2).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI3).EndInit();
-            contextMenuStrip_tray.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -344,10 +309,6 @@
         private NumericUpDown numericUpDown_MIDI1;
         private NumericUpDown numericUpDown_MIDI2;
         private NumericUpDown numericUpDown_MIDI3;
-        private NotifyIcon notifyIcon_MIDIController;
-        private ContextMenuStrip contextMenuStrip_tray;
-        private ToolStripMenuItem toolStripMenuItem_Show;
-        private ToolStripMenuItem toolStripMenuItem_Exit;
         private Label label_MIDI_Device;
         private ComboBox comboBox_Device_List;
         private Button button_Refresh_Devices;

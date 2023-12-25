@@ -9,7 +9,7 @@ namespace QwertyToMIDI
     /// <summary>
     /// A class that manages a global low level keyboard hook
     /// </summary>
-    class globalKeyboardHook
+    public class globalKeyboardHook
     {
         #region Constant, Structure and Delegate Definitions
         /// <summary>

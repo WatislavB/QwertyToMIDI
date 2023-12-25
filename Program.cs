@@ -1,3 +1,5 @@
+using System.Resources;
+
 namespace QwertyToMIDI
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace QwertyToMIDI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new SettingsForm());
+            Application.Run(new AppTray());
         }
     }
 }
