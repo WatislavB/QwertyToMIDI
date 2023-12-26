@@ -1,5 +1,7 @@
 using NAudio.Midi;
+using System.Data;
 using System.Diagnostics;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace QwertyToMIDI
@@ -32,11 +34,18 @@ namespace QwertyToMIDI
             {
                 if (editIndex > -1)
                 {
-                    dataGridView_Keys.Rows[editIndex].Cells[0].Value = textBox_Key.Text;
-                    dataGridView_Keys.Rows[editIndex].Cells[1].Value = comboBox_Key_status.Text;
-                    dataGridView_Keys.Rows[editIndex].Cells[2].Value = numericUpDown_MIDI1.Value;
-                    dataGridView_Keys.Rows[editIndex].Cells[3].Value = numericUpDown_MIDI2.Value;
-                    dataGridView_Keys.Rows[editIndex].Cells[4].Value = numericUpDown_MIDI3.Value;
+                    for (int i = 0; i < dataGridView_Keys.Rows.Count; i++)
+                    {
+                        if ((int)dataGridView_Keys.Rows[i].Cells[0].Value == editIndex)
+                        {
+                            dataGridView_Keys.Rows[i].Cells[0].Value = editIndex;
+                            dataGridView_Keys.Rows[i].Cells[1].Value = textBox_Key.Text;
+                            dataGridView_Keys.Rows[i].Cells[2].Value = comboBox_Key_status.Text;
+                            dataGridView_Keys.Rows[i].Cells[3].Value = numericUpDown_MIDI1.Value;
+                            dataGridView_Keys.Rows[i].Cells[4].Value = numericUpDown_MIDI2.Value;
+                            dataGridView_Keys.Rows[i].Cells[5].Value = numericUpDown_MIDI3.Value;
+                        }
+                    }
 
                     parent.gkh.HookedKeys.Remove(parent.SettingsValues.SettingsKeys[editIndex].key);
                     parent.gkh.HookedKeys.Add(lastKey);
@@ -51,7 +60,7 @@ namespace QwertyToMIDI
                 }
                 else
                 {
-                    dataGridView_Keys.Rows.Add(textBox_Key.Text, comboBox_Key_status.Text, numericUpDown_MIDI1.Value, numericUpDown_MIDI2.Value, numericUpDown_MIDI3.Value);
+                    dataGridView_Keys.Rows.Add(parent.SettingsValues.SettingsKeys.Count, lastKey, comboBox_Key_status.Text, numericUpDown_MIDI1.Value, numericUpDown_MIDI2.Value, numericUpDown_MIDI3.Value);
 
                     parent.gkh.HookedKeys.Add(lastKey);
 
@@ -103,9 +112,9 @@ namespace QwertyToMIDI
             {
                 if (dataGridView_Keys.SelectedCells.Count > 0)
                 {
-                    parent.SettingsValues.SettingsKeys.RemoveAt(dataGridView_Keys.SelectedCells[0].RowIndex);
-                    parent.gkh.HookedKeys.RemoveAt(dataGridView_Keys.SelectedCells[0].RowIndex);
-                    dataGridView_Keys.Rows.RemoveAt(dataGridView_Keys.SelectedCells[0].RowIndex);
+                    parent.SettingsValues.SettingsKeys.RemoveAt((int)dataGridView_Keys.SelectedCells[0].OwningRow.Cells[0].Value);
+                    parent.gkh.HookedKeys.RemoveAt((int)dataGridView_Keys.SelectedCells[0].OwningRow.Cells[0].Value);
+                    dataGridView_Keys.Rows.RemoveAt((int)dataGridView_Keys.SelectedCells[0].OwningRow.Cells[0].Value);
 
                     SaveFile();
                 }
@@ -124,7 +133,7 @@ namespace QwertyToMIDI
             parent.MidiDevice = comboBox_Device_List.SelectedIndex;
 
             parent.SettingsValues.MidiDeviceName = MidiOut.DeviceInfo(comboBox_Device_List.SelectedIndex).ProductName;
-            
+
             SaveFile();
         }
 
@@ -160,7 +169,8 @@ namespace QwertyToMIDI
                 button_Add.Text = "Save";
                 button_Edit.Text = "Cancel";
                 button_Remove.Enabled = false;
-                editIndex = dataGridView_Keys.SelectedCells[0].RowIndex;
+                editIndex = (int)dataGridView_Keys.SelectedCells[0].OwningRow.Cells[0].Value;
+                Debug.WriteLine((int)dataGridView_Keys.SelectedCells[0].OwningRow.Cells[0].Value);
             }
         }
 
@@ -170,7 +180,7 @@ namespace QwertyToMIDI
             {
                 for (int i = 0; i < parent.SettingsValues.SettingsKeys.Count; i++)
                 {
-                    dataGridView_Keys.Rows.Add(parent.SettingsValues.SettingsKeys[i].key, parent.SettingsValues.SettingsKeys[i].key_status, parent.SettingsValues.SettingsKeys[i].midi1, parent.SettingsValues.SettingsKeys[i].midi2, parent.SettingsValues.SettingsKeys[i].midi3);
+                    dataGridView_Keys.Rows.Add(i, parent.SettingsValues.SettingsKeys[i].key, parent.SettingsValues.SettingsKeys[i].key_status, parent.SettingsValues.SettingsKeys[i].midi1, parent.SettingsValues.SettingsKeys[i].midi2, parent.SettingsValues.SettingsKeys[i].midi3);
                 }
             }
         }
