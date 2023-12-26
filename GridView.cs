@@ -60,7 +60,7 @@ namespace QwertyToMIDI
                 }
                 else
                 {
-                    dataGridView_Keys.Rows.Add(parent.SettingsValues.SettingsKeys.Count, lastKey, comboBox_Key_status.Text, numericUpDown_MIDI1.Value, numericUpDown_MIDI2.Value, numericUpDown_MIDI3.Value);
+                    dataGridView_Keys.Rows.Add(parent.SettingsValues.SettingsKeys.Count, lastKey, comboBox_Key_status.Text, (int)numericUpDown_MIDI1.Value, (int)numericUpDown_MIDI2.Value, (int)numericUpDown_MIDI3.Value);
 
                     parent.gkh.HookedKeys.Add(lastKey);
 
