@@ -36,6 +36,8 @@ namespace QwertyToMIDI
 
             LoadFile();
             LoadDevices();
+
+
         }
 
         void gkh_KeyDown(object sender, KeyEventArgs e)

@@ -33,6 +33,11 @@
             button_Remove = new Button();
             button_Edit = new Button();
             dataGridView_Keys = new DataGridView();
+            Column_Key = new DataGridViewTextBoxColumn();
+            Column_KeyStatus = new DataGridViewTextBoxColumn();
+            Column_MIDI1 = new DataGridViewTextBoxColumn();
+            Column_MIDI2 = new DataGridViewTextBoxColumn();
+            Column_MIDI3 = new DataGridViewTextBoxColumn();
             label_Key = new Label();
             textBox_Key = new TextBox();
             label_MIDI1 = new Label();
@@ -45,12 +50,6 @@
             comboBox_Device_List = new ComboBox();
             button_Refresh_Devices = new Button();
             comboBox_Key_status = new ComboBox();
-            Column_ID = new DataGridViewTextBoxColumn();
-            Column_Key = new DataGridViewTextBoxColumn();
-            Column_KeyStatus = new DataGridViewTextBoxColumn();
-            Column_MIDI1 = new DataGridViewTextBoxColumn();
-            Column_MIDI2 = new DataGridViewTextBoxColumn();
-            Column_MIDI3 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Keys).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI2).BeginInit();
@@ -97,13 +96,52 @@
             dataGridView_Keys.AllowUserToResizeRows = false;
             dataGridView_Keys.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView_Keys.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView_Keys.Columns.AddRange(new DataGridViewColumn[] { Column_ID, Column_Key, Column_KeyStatus, Column_MIDI1, Column_MIDI2, Column_MIDI3 });
+            dataGridView_Keys.Columns.AddRange(new DataGridViewColumn[] { Column_Key, Column_KeyStatus, Column_MIDI1, Column_MIDI2, Column_MIDI3 });
             dataGridView_Keys.Location = new Point(12, 41);
+            dataGridView_Keys.MultiSelect = false;
             dataGridView_Keys.Name = "dataGridView_Keys";
             dataGridView_Keys.ReadOnly = true;
             dataGridView_Keys.RowTemplate.Height = 25;
+            dataGridView_Keys.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_Keys.Size = new Size(663, 284);
             dataGridView_Keys.TabIndex = 5;
+            // 
+            // Column_Key
+            // 
+            Column_Key.HeaderText = "Key";
+            Column_Key.Name = "Column_Key";
+            Column_Key.ReadOnly = true;
+            Column_Key.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column_KeyStatus
+            // 
+            Column_KeyStatus.HeaderText = "Key Status";
+            Column_KeyStatus.Name = "Column_KeyStatus";
+            Column_KeyStatus.ReadOnly = true;
+            Column_KeyStatus.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column_MIDI1
+            // 
+            Column_MIDI1.HeaderText = "MIDI Controller";
+            Column_MIDI1.Name = "Column_MIDI1";
+            Column_MIDI1.ReadOnly = true;
+            Column_MIDI1.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Column_MIDI1.Width = 120;
+            // 
+            // Column_MIDI2
+            // 
+            Column_MIDI2.HeaderText = "MIDI Value";
+            Column_MIDI2.Name = "Column_MIDI2";
+            Column_MIDI2.ReadOnly = true;
+            Column_MIDI2.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column_MIDI3
+            // 
+            Column_MIDI3.HeaderText = "MIDI Channel";
+            Column_MIDI3.Name = "Column_MIDI3";
+            Column_MIDI3.ReadOnly = true;
+            Column_MIDI3.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Column_MIDI3.Width = 110;
             // 
             // label_Key
             // 
@@ -228,45 +266,6 @@
             comboBox_Key_status.Size = new Size(124, 23);
             comboBox_Key_status.TabIndex = 20;
             // 
-            // Column_ID
-            // 
-            Column_ID.HeaderText = "ID";
-            Column_ID.Name = "Column_ID";
-            Column_ID.ReadOnly = true;
-            Column_ID.Width = 40;
-            // 
-            // Column_Key
-            // 
-            Column_Key.HeaderText = "Key";
-            Column_Key.Name = "Column_Key";
-            Column_Key.ReadOnly = true;
-            // 
-            // Column_KeyStatus
-            // 
-            Column_KeyStatus.HeaderText = "Key Status";
-            Column_KeyStatus.Name = "Column_KeyStatus";
-            Column_KeyStatus.ReadOnly = true;
-            // 
-            // Column_MIDI1
-            // 
-            Column_MIDI1.HeaderText = "MIDI Controller";
-            Column_MIDI1.Name = "Column_MIDI1";
-            Column_MIDI1.ReadOnly = true;
-            Column_MIDI1.Width = 120;
-            // 
-            // Column_MIDI2
-            // 
-            Column_MIDI2.HeaderText = "MIDI Value";
-            Column_MIDI2.Name = "Column_MIDI2";
-            Column_MIDI2.ReadOnly = true;
-            // 
-            // Column_MIDI3
-            // 
-            Column_MIDI3.HeaderText = "MIDI Channel";
-            Column_MIDI3.Name = "Column_MIDI3";
-            Column_MIDI3.ReadOnly = true;
-            Column_MIDI3.Width = 110;
-            // 
             // GridView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -320,7 +319,6 @@
         private ComboBox comboBox_Device_List;
         private Button button_Refresh_Devices;
         private ComboBox comboBox_Key_status;
-        private DataGridViewTextBoxColumn Column_ID;
         private DataGridViewTextBoxColumn Column_Key;
         private DataGridViewTextBoxColumn Column_KeyStatus;
         private DataGridViewTextBoxColumn Column_MIDI1;
