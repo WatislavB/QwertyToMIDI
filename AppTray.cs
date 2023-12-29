@@ -46,14 +46,15 @@ namespace QwertyToMIDI
             {
                 for (int i = 0; i < SettingsValues.SettingsKeys.Count; i++)
                 {
-                    if ((SettingsValues.SettingsKeys[i].key == e.KeyCode) && (SettingsValues.SettingsKeys[i].key_status == "Key Down"))
-                    {
-                        MidiOut midiOut = new MidiOut(MidiDevice);
-                        midiOut.Send(MidiMessage.ChangeControl(SettingsValues.SettingsKeys[i].midi1, SettingsValues.SettingsKeys[i].midi2, SettingsValues.SettingsKeys[i].midi3).RawData);
-                        midiOut.Close();
+                    if (SettingsValues.SettingsKeys[i].key_status != "")
+                        if ((SettingsValues.SettingsKeys[i].key == e.KeyCode) && (SettingsValues.SettingsKeys[i].key_status == "Key Down"))
+                        {
+                            MidiOut midiOut = new MidiOut(MidiDevice);
+                            midiOut.Send(MidiMessage.ChangeControl(SettingsValues.SettingsKeys[i].midi1, SettingsValues.SettingsKeys[i].midi2, SettingsValues.SettingsKeys[i].midi3).RawData);
+                            midiOut.Close();
 
-                        Debug.WriteLine(SettingsValues.SettingsKeys[i].key);
-                    }
+                            Debug.WriteLine(SettingsValues.SettingsKeys[i].key);
+                        }
                 }
             }
         }
@@ -64,14 +65,15 @@ namespace QwertyToMIDI
             {
                 for (int i = 0; i < SettingsValues.SettingsKeys.Count; i++)
                 {
-                    if ((SettingsValues.SettingsKeys[i].key == e.KeyCode) && (SettingsValues.SettingsKeys[i].key_status == "Key Up"))
-                    {
-                        MidiOut midiOut = new MidiOut(MidiDevice);
-                        midiOut.Send(MidiMessage.ChangeControl(SettingsValues.SettingsKeys[i].midi1, SettingsValues.SettingsKeys[i].midi2, SettingsValues.SettingsKeys[i].midi3).RawData);
-                        midiOut.Close();
+                    if (SettingsValues.SettingsKeys[i].key_status != "")
+                        if ((SettingsValues.SettingsKeys[i].key == e.KeyCode) && (SettingsValues.SettingsKeys[i].key_status == "Key Up"))
+                        {
+                            MidiOut midiOut = new MidiOut(MidiDevice);
+                            midiOut.Send(MidiMessage.ChangeControl(SettingsValues.SettingsKeys[i].midi1, SettingsValues.SettingsKeys[i].midi2, SettingsValues.SettingsKeys[i].midi3).RawData);
+                            midiOut.Close();
 
-                        Debug.WriteLine(SettingsValues.SettingsKeys[i].key);
-                    }
+                            Debug.WriteLine(SettingsValues.SettingsKeys[i].key);
+                        }
                 }
             }
         }
@@ -92,6 +94,25 @@ namespace QwertyToMIDI
         {
             SettingsForm settings_f = new SettingsForm();
             settings_f.Show();
+
+            //ButtonsForm buttons_f = new ButtonsForm(this);
+            //buttons_f.Show();
+        }
+
+        public void SaveFile()
+        {
+            if (!Directory.Exists(settings_path))
+            {
+                Directory.CreateDirectory(settings_path);
+            }
+
+            string path = settings_path + keys_settings_fileName;
+
+            Stream stream = File.Open(path, FileMode.Create);
+
+            XmlSerializer serialiser = new XmlSerializer(typeof(settings));
+            serialiser.Serialize(stream, SettingsValues);
+            stream.Close();
         }
 
         private void LoadFile()

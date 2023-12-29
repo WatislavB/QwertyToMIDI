@@ -68,7 +68,7 @@ namespace QwertyToMIDI
                 }
 
                 ClearBoxes();
-                SaveFile();
+                parent.SaveFile();
             }
         }
 
@@ -109,7 +109,7 @@ namespace QwertyToMIDI
                     parent.gkh.HookedKeys.RemoveAt(dataGridView_Keys.SelectedRows[0].Index);
                     dataGridView_Keys.Rows.RemoveAt(dataGridView_Keys.SelectedRows[0].Index);
 
-                    SaveFile();
+                    parent.SaveFile();
                 }
             }
         }
@@ -127,7 +127,7 @@ namespace QwertyToMIDI
 
             parent.SettingsValues.MidiDeviceName = MidiOut.DeviceInfo(comboBox_Device_List.SelectedIndex).ProductName;
 
-            SaveFile();
+            parent.SaveFile();
         }
 
         private void button_Refresh_Devices_Click(object sender, EventArgs e)
@@ -175,22 +175,6 @@ namespace QwertyToMIDI
                     dataGridView_Keys.Rows.Add(parent.SettingsValues.SettingsKeys[i].key, parent.SettingsValues.SettingsKeys[i].key_status, parent.SettingsValues.SettingsKeys[i].midi1, parent.SettingsValues.SettingsKeys[i].midi2, parent.SettingsValues.SettingsKeys[i].midi3);
                 }
             }
-        }
-
-        private void SaveFile()
-        {
-            if (!Directory.Exists(parent.settings_path))
-            {
-                Directory.CreateDirectory(parent.settings_path);
-            }
-
-            string path = parent.settings_path + parent.keys_settings_fileName;
-
-            Stream stream = File.Open(path, FileMode.Create);
-
-            XmlSerializer serialiser = new XmlSerializer(typeof(settings));
-            serialiser.Serialize(stream, parent.SettingsValues);
-            stream.Close();
         }
 
         private void LoadDevices()
