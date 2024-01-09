@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Midi;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,6 +29,8 @@ namespace QwertyToMIDI
             InitializeComponent();
 
             parent = at;
+
+            LoadDevices();
         }
 
         private void ButtonsForm_Load(object sender, EventArgs e)
@@ -67,6 +70,7 @@ namespace QwertyToMIDI
                     flowLayoutPanel_dynamicButtons.Controls.SetChildIndex(dynamicButton, flowLayoutPanel_dynamicButtons.Controls.Count - 2);
 
                 dynamicButtons.Add(dynamicButton);
+                dynamicButton.Focus();
             }
         }
 
@@ -96,7 +100,15 @@ namespace QwertyToMIDI
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            CreateDynamicButton(Keys.V, true);
+            HotkeyForm hotkeyForm = new HotkeyForm();
+            hotkeyForm.HotkeyPressed += (s, args) =>
+            {
+                CreateDynamicButton(args.SelectedHotkey, true);
+                DynamicButton_Click(args.SelectedHotkey);
+                hotkeyForm.Close();
+            };
+
+            hotkeyForm.Show();
         }
 
         private void button_AddKeyDown_Click(object sender, EventArgs e)
@@ -256,6 +268,87 @@ namespace QwertyToMIDI
             lastKey = Keys.None;
 
             parent.SaveFile();
+        }
+
+        private void comboBox_Device_List_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            parent.MidiDevice = comboBox_Device_List.SelectedIndex;
+
+            parent.SettingsValues.MidiDeviceName = MidiOut.DeviceInfo(comboBox_Device_List.SelectedIndex).ProductName;
+
+            parent.SaveFile();
+        }
+
+        private void button_Refresh_Devices_Click(object sender, EventArgs e)
+        {
+            LoadDevices();
+        }
+
+        private void LoadDevices()
+        {
+            comboBox_Device_List.Items.Clear();
+
+            for (int device = 0; device < MidiOut.NumberOfDevices; device++)
+            {
+                Debug.WriteLine(MidiOut.DeviceInfo(device).ProductName);
+
+                comboBox_Device_List.Items.Add(MidiOut.DeviceInfo(device).ProductName);
+            }
+
+            if (comboBox_Device_List.Items.Count >= parent.MidiDevice)
+            {
+                comboBox_Device_List.SelectedIndex = parent.MidiDevice;
+            }
+        }
+
+        private void button_EditKeyDown_Click(object sender, EventArgs e)
+        {
+            int dgv_indx = dataGridView_KeyDown.SelectedRows[0].Index;
+
+            settings_keys sk = new settings_keys();
+
+            sk.key = lastKey;
+            sk.key_status = "Key Down";
+            sk.midi1 = (int)dataGridView_KeyDown.SelectedRows[0].Cells[0].Value;
+            sk.midi2 = (int)dataGridView_KeyDown.SelectedRows[0].Cells[1].Value;
+            sk.midi3 = (int)dataGridView_KeyDown.SelectedRows[0].Cells[2].Value;
+
+            int indx = parent.SettingsValues.SettingsKeys.FindIndex(k => (k.key == sk.key) && (k.key_status == sk.key_status) && (k.midi1 == sk.midi1) && (k.midi2 == sk.midi2) && (k.midi3 == sk.midi3));
+
+            sk.midi1 = (int)numericUpDown_MIDI1.Value;
+            sk.midi2 = (int)numericUpDown_MIDI2.Value;
+            sk.midi3 = (int)numericUpDown_MIDI3.Value;
+
+            dataGridView_KeyDown.Rows[dgv_indx].Cells[0].Value = sk.midi1;
+            dataGridView_KeyDown.Rows[dgv_indx].Cells[1].Value = sk.midi2;
+            dataGridView_KeyDown.Rows[dgv_indx].Cells[2].Value = sk.midi3;
+
+            parent.SettingsValues.SettingsKeys[indx] = sk;
+        }
+
+        private void button_EditKeyUp_Click(object sender, EventArgs e)
+        {
+            int dgv_indx = dataGridView_KeyUp.SelectedRows[0].Index;
+
+            settings_keys sk = new settings_keys();
+
+            sk.key = lastKey;
+            sk.key_status = "Key Up";
+            sk.midi1 = (int)dataGridView_KeyUp.SelectedRows[0].Cells[0].Value;
+            sk.midi2 = (int)dataGridView_KeyUp.SelectedRows[0].Cells[1].Value;
+            sk.midi3 = (int)dataGridView_KeyUp.SelectedRows[0].Cells[2].Value;
+
+            int indx = parent.SettingsValues.SettingsKeys.FindIndex(k => (k.key == sk.key) && (k.key_status == sk.key_status) && (k.midi1 == sk.midi1) && (k.midi2 == sk.midi2) && (k.midi3 == sk.midi3));
+
+            sk.midi1 = (int)numericUpDown_MIDI1.Value;
+            sk.midi2 = (int)numericUpDown_MIDI2.Value;
+            sk.midi3 = (int)numericUpDown_MIDI3.Value;
+
+            dataGridView_KeyUp.Rows[dgv_indx].Cells[0].Value = sk.midi1;
+            dataGridView_KeyUp.Rows[dgv_indx].Cells[1].Value = sk.midi2;
+            dataGridView_KeyUp.Rows[dgv_indx].Cells[2].Value = sk.midi3;
+
+            parent.SettingsValues.SettingsKeys[indx] = sk;
         }
     }
 }

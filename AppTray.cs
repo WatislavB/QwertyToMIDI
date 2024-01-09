@@ -17,6 +17,12 @@ namespace QwertyToMIDI
 
         private NotifyIcon trayIcon;
 
+        private ButtonsForm buttons_f;
+        private GridView gridview_f;
+        private SettingsForm settings_f;
+
+        private List<Form> openedForms = new List<Form>();
+
         public AppTray()
         {
             trayIcon = new NotifyIcon()
@@ -24,12 +30,12 @@ namespace QwertyToMIDI
                 Icon = Properties.Resources.RIcon,
                 ContextMenuStrip = new ContextMenuStrip()
                 {
-                    Items = { new ToolStripMenuItem("Grid View", null, GridViewShow), new ToolStripMenuItem("Settings", null, SettingsShow), new ToolStripMenuItem("Exit", null, Exit) }
+                    Items = { new ToolStripMenuItem("Settings Hotkeys", null, SettingsHotkeys), new ToolStripMenuItem("Grid View", null, GridViewShow), new ToolStripMenuItem("Settings", null, SettingsShow), new ToolStripMenuItem("Exit", null, Exit) }
                 },
                 Visible = true
             };
 
-            trayIcon.DoubleClick += new EventHandler(GridViewShow);
+            trayIcon.DoubleClick += new EventHandler(SettingsHotkeys);
 
             gkh.KeyDown += new KeyEventHandler(gkh_KeyDown);
             gkh.KeyUp += new KeyEventHandler(gkh_KeyUp);
@@ -84,19 +90,59 @@ namespace QwertyToMIDI
             Application.Exit();
         }
 
+        void SettingsHotkeys(object? sender, EventArgs e)
+        {
+            if (!IsFormOpened(typeof(ButtonsForm)))
+            {
+                if (IsFormOpened(typeof(GridView)))
+                {
+                    gridview_f.Close();
+                }
+
+                buttons_f = new ButtonsForm(this);
+                buttons_f.FormClosed += (s, args) => openedForms.Remove(buttons_f);
+                openedForms.Add(buttons_f);
+                buttons_f.Show();
+            }
+            else
+            {
+                buttons_f.Focus();
+            }
+        }
+
         void GridViewShow(object? sender, EventArgs e)
         {
-            GridView gridview_f = new GridView(this);
-            gridview_f.Show();
+            if (!IsFormOpened(typeof(GridView)))
+            {
+                if (IsFormOpened(typeof(ButtonsForm)))
+                {
+                    buttons_f.Close();
+                }
+
+                gridview_f = new GridView(this);
+                gridview_f.FormClosed += (s, args) => openedForms.Remove(gridview_f);
+                openedForms.Add(gridview_f);
+                gridview_f.Show();
+            }
+            else
+            {
+                gridview_f.Focus();
+            }
         }
 
         void SettingsShow(object? sender, EventArgs e)
         {
-            SettingsForm settings_f = new SettingsForm();
-            settings_f.Show();
-
-            //ButtonsForm buttons_f = new ButtonsForm(this);
-            //buttons_f.Show();
+            if (!IsFormOpened(typeof(SettingsForm)))
+            {
+                settings_f = new SettingsForm();
+                settings_f.FormClosed += (s, args) => openedForms.Remove(settings_f);
+                openedForms.Add(settings_f);
+                settings_f.Show();
+            }
+            else
+            {
+                settings_f.Focus();
+            }
         }
 
         public void SaveFile()
@@ -143,6 +189,11 @@ namespace QwertyToMIDI
                     MidiDevice = device;
                 }
             }
+        }
+
+        private bool IsFormOpened(Type formType)
+        {
+            return openedForms.Exists(form => form.GetType() == formType);
         }
     }
 

@@ -32,6 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ButtonsForm));
             dataGridView_KeyDown = new DataGridView();
             Column_Controller = new DataGridViewTextBoxColumn();
             Column_Value = new DataGridViewTextBoxColumn();
@@ -61,6 +62,9 @@
             tableLayoutPanel3 = new TableLayoutPanel();
             panel1 = new Panel();
             button_DeleteButton = new Button();
+            button_Refresh_Devices = new Button();
+            comboBox_Device_List = new ComboBox();
+            label_MIDI_Device = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView_KeyDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_MIDI2).BeginInit();
@@ -117,7 +121,7 @@
             dataGridView_KeyDown.ShowCellToolTips = false;
             dataGridView_KeyDown.ShowEditingIcon = false;
             dataGridView_KeyDown.ShowRowErrors = false;
-            dataGridView_KeyDown.Size = new Size(222, 96);
+            dataGridView_KeyDown.Size = new Size(222, 81);
             dataGridView_KeyDown.TabIndex = 1;
             dataGridView_KeyDown.RowsAdded += dataGridView_KeyDown_RowsAdded;
             dataGridView_KeyDown.RowsRemoved += dataGridView_KeyDown_RowsRemoved;
@@ -209,7 +213,7 @@
             tableLayoutPanel2.Controls.Add(button_EditKeyUp, 1, 0);
             tableLayoutPanel2.Controls.Add(button_RemoveKeyUp, 2, 0);
             tableLayoutPanel2.Dock = DockStyle.Bottom;
-            tableLayoutPanel2.Location = new Point(3, 115);
+            tableLayoutPanel2.Location = new Point(3, 100);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -238,6 +242,7 @@
             button_EditKeyUp.TabIndex = 1;
             button_EditKeyUp.Text = "Edit";
             button_EditKeyUp.UseVisualStyleBackColor = true;
+            button_EditKeyUp.Click += button_EditKeyUp_Click;
             // 
             // button_RemoveKeyUp
             // 
@@ -261,7 +266,7 @@
             tableLayoutPanel1.Controls.Add(button_EditKeyDown, 1, 0);
             tableLayoutPanel1.Controls.Add(button_RemoveKeyDown, 2, 0);
             tableLayoutPanel1.Dock = DockStyle.Bottom;
-            tableLayoutPanel1.Location = new Point(3, 115);
+            tableLayoutPanel1.Location = new Point(3, 100);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -290,6 +295,7 @@
             button_EditKeyDown.TabIndex = 1;
             button_EditKeyDown.Text = "Edit";
             button_EditKeyDown.UseVisualStyleBackColor = true;
+            button_EditKeyDown.Click += button_EditKeyDown_Click;
             // 
             // button_RemoveKeyDown
             // 
@@ -329,7 +335,7 @@
             dataGridView_KeyUp.ShowCellToolTips = false;
             dataGridView_KeyUp.ShowEditingIcon = false;
             dataGridView_KeyUp.ShowRowErrors = false;
-            dataGridView_KeyUp.Size = new Size(222, 96);
+            dataGridView_KeyUp.Size = new Size(222, 81);
             dataGridView_KeyUp.TabIndex = 27;
             dataGridView_KeyUp.RowsAdded += dataGridView_KeyUp_RowsAdded;
             dataGridView_KeyUp.RowsRemoved += dataGridView_KeyUp_RowsRemoved;
@@ -357,10 +363,10 @@
             groupBox_dynamicButtons.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox_dynamicButtons.BackColor = SystemColors.Control;
             groupBox_dynamicButtons.Controls.Add(flowLayoutPanel_dynamicButtons);
-            groupBox_dynamicButtons.Location = new Point(12, 12);
+            groupBox_dynamicButtons.Location = new Point(12, 41);
             groupBox_dynamicButtons.Name = "groupBox_dynamicButtons";
             groupBox_dynamicButtons.Padding = new Padding(0);
-            groupBox_dynamicButtons.Size = new Size(295, 433);
+            groupBox_dynamicButtons.Size = new Size(295, 404);
             groupBox_dynamicButtons.TabIndex = 26;
             groupBox_dynamicButtons.TabStop = false;
             groupBox_dynamicButtons.Text = "Buttons";
@@ -371,7 +377,7 @@
             flowLayoutPanel_dynamicButtons.Dock = DockStyle.Fill;
             flowLayoutPanel_dynamicButtons.Location = new Point(0, 16);
             flowLayoutPanel_dynamicButtons.Name = "flowLayoutPanel_dynamicButtons";
-            flowLayoutPanel_dynamicButtons.Size = new Size(295, 417);
+            flowLayoutPanel_dynamicButtons.Size = new Size(295, 388);
             flowLayoutPanel_dynamicButtons.TabIndex = 0;
             // 
             // groupBox_KeyDown
@@ -381,7 +387,7 @@
             groupBox_KeyDown.Dock = DockStyle.Fill;
             groupBox_KeyDown.Location = new Point(3, 3);
             groupBox_KeyDown.Name = "groupBox_KeyDown";
-            groupBox_KeyDown.Size = new Size(228, 149);
+            groupBox_KeyDown.Size = new Size(228, 134);
             groupBox_KeyDown.TabIndex = 28;
             groupBox_KeyDown.TabStop = false;
             groupBox_KeyDown.Text = "Key Down";
@@ -391,9 +397,9 @@
             groupBox_KeyUp.Controls.Add(dataGridView_KeyUp);
             groupBox_KeyUp.Controls.Add(tableLayoutPanel2);
             groupBox_KeyUp.Dock = DockStyle.Fill;
-            groupBox_KeyUp.Location = new Point(3, 158);
+            groupBox_KeyUp.Location = new Point(3, 143);
             groupBox_KeyUp.Name = "groupBox_KeyUp";
-            groupBox_KeyUp.Size = new Size(228, 149);
+            groupBox_KeyUp.Size = new Size(228, 134);
             groupBox_KeyUp.TabIndex = 29;
             groupBox_KeyUp.TabStop = false;
             groupBox_KeyUp.Text = "Key Up";
@@ -407,14 +413,14 @@
             tableLayoutPanel3.Controls.Add(groupBox_KeyDown, 0, 0);
             tableLayoutPanel3.Controls.Add(groupBox_KeyUp, 0, 1);
             tableLayoutPanel3.Controls.Add(button_DeleteButton, 0, 3);
-            tableLayoutPanel3.Location = new Point(313, 12);
+            tableLayoutPanel3.Location = new Point(313, 41);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 4;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 93F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel3.Size = new Size(234, 433);
+            tableLayoutPanel3.Size = new Size(234, 404);
             tableLayoutPanel3.TabIndex = 30;
             // 
             // panel1
@@ -427,7 +433,7 @@
             panel1.Controls.Add(numericUpDown_MIDI3);
             panel1.Controls.Add(numericUpDown_MIDI1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 313);
+            panel1.Location = new Point(3, 283);
             panel1.Name = "panel1";
             panel1.Size = new Size(228, 87);
             panel1.TabIndex = 31;
@@ -436,21 +442,57 @@
             // 
             button_DeleteButton.Dock = DockStyle.Fill;
             button_DeleteButton.Enabled = false;
-            button_DeleteButton.Location = new Point(3, 406);
+            button_DeleteButton.Location = new Point(3, 376);
             button_DeleteButton.Name = "button_DeleteButton";
-            button_DeleteButton.Size = new Size(228, 24);
+            button_DeleteButton.Size = new Size(228, 25);
             button_DeleteButton.TabIndex = 32;
             button_DeleteButton.Text = "Delete Button";
             button_DeleteButton.UseVisualStyleBackColor = true;
             button_DeleteButton.Click += button_DeleteButton_Click;
+            // 
+            // button_Refresh_Devices
+            // 
+            button_Refresh_Devices.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button_Refresh_Devices.Location = new Point(472, 12);
+            button_Refresh_Devices.Name = "button_Refresh_Devices";
+            button_Refresh_Devices.Size = new Size(75, 23);
+            button_Refresh_Devices.TabIndex = 33;
+            button_Refresh_Devices.Text = "Refresh";
+            button_Refresh_Devices.UseVisualStyleBackColor = true;
+            button_Refresh_Devices.Click += button_Refresh_Devices_Click;
+            // 
+            // comboBox_Device_List
+            // 
+            comboBox_Device_List.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBox_Device_List.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_Device_List.FormattingEnabled = true;
+            comboBox_Device_List.Location = new Point(87, 12);
+            comboBox_Device_List.MaxDropDownItems = 18;
+            comboBox_Device_List.Name = "comboBox_Device_List";
+            comboBox_Device_List.Size = new Size(379, 23);
+            comboBox_Device_List.TabIndex = 32;
+            comboBox_Device_List.SelectedIndexChanged += comboBox_Device_List_SelectedIndexChanged;
+            // 
+            // label_MIDI_Device
+            // 
+            label_MIDI_Device.AutoSize = true;
+            label_MIDI_Device.Location = new Point(12, 15);
+            label_MIDI_Device.Name = "label_MIDI_Device";
+            label_MIDI_Device.Size = new Size(70, 15);
+            label_MIDI_Device.TabIndex = 31;
+            label_MIDI_Device.Text = "MIDI Device";
             // 
             // ButtonsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(559, 457);
+            Controls.Add(button_Refresh_Devices);
+            Controls.Add(comboBox_Device_List);
+            Controls.Add(label_MIDI_Device);
             Controls.Add(tableLayoutPanel3);
             Controls.Add(groupBox_dynamicButtons);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(528, 440);
             Name = "ButtonsForm";
             Text = "Buttons";
@@ -470,6 +512,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -503,5 +546,8 @@
         private Panel panel1;
         private FlowLayoutPanel flowLayoutPanel_dynamicButtons;
         private Button button_DeleteButton;
+        private Button button_Refresh_Devices;
+        private ComboBox comboBox_Device_List;
+        private Label label_MIDI_Device;
     }
 }
